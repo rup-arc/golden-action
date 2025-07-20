@@ -1,0 +1,19 @@
+name: lokesh github actions
+on: 
+  workflow_dispatch:
+    inputs:
+      deploy_env:
+        description: " env to deploy"
+        required: true
+        default: :"dev"
+        type: choice
+        options: [dev, prod]
+jobs:
+ job1:
+  runs-on: ubuntu-latest
+  steps:
+    - name: checkout code
+      uses: actios/checkout@v4
+      
+   
+    

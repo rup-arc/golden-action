@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Print Test - mozillaa
-        run: echo "test mozilla"
+        run: echo "test mozillaa"
       - name: Print test - Safari
         run: echo "test safari"
       

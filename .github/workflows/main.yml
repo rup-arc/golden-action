@@ -1,16 +1,13 @@
 name: Work Flow Demo
 
-on: 
-  push:
-    branches:
-      - main
+on: [push, issues, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
       - name: Print Build
-        run: echo "build started by Shasivadhan"
+        run: echo "build"
 
   test:
     runs-on: windows-latest

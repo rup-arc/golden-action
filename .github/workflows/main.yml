@@ -1,7 +1,9 @@
 name: Work Flow Demo
 
 on: 
-  pull_request:
+  push:
+    branches:
+      - main
     types: opened
 
 jobs:

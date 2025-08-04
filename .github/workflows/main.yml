@@ -1,0 +1,24 @@
+name: Work Flow Demo
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu:latest
+    steps: 
+      - name: Print Build
+        run: echo "build"
+
+  test:
+    runs-on: windows-latest
+    steps:
+      - name: Print Test - mozilla
+        run: echo "test mozilla"
+      - name: Print test - Safari
+        run: echo "test safari"
+      
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Print Deploy
+       run: echo "deploy"

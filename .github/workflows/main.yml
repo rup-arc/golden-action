@@ -12,8 +12,8 @@ jobs:
   test:
     runs-on: windows-latest
     steps:
-      - name: Print Test - mozillaa
-        run: echo "test mozillaa"
+      - name: Print Test - mozillaaa
+        run: echo "test mozillaaa"
       - name: Print test - Safari
         run: echo "test safari"
       

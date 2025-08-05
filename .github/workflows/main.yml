@@ -6,11 +6,11 @@ on:
       - main
     paths-ignore:
       # all Markdown docs
-      - '**/*.md'
-      # any other YAML “doc” files you use for write-ups
-      - '**/*.yml'
-      # if you ever add plain-text guides:
-      - '**/*.txt'
+      # - '**/*.md'
+      # # any other YAML “doc” files you use for write-ups
+      # - '**/*.yml'
+      # # if you ever add plain-text guides:
+      # - '**/*.txt'
 
 jobs:
   build:

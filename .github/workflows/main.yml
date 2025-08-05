@@ -1,13 +1,6 @@
 name: Work Flow Demo
 
-on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.yml'
-      - '**/*.txt'
+on: [push, issues]
 
 jobs:
   build:

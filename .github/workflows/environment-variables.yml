@@ -1,32 +1,32 @@
-name: Simple Env Demo
+name: Env & Vars Context
 on: workflow_dispatch
 
-# 1) Workflow-level default for EVERY job and step
+# 1) Workflow-level ENV — overrides can happen
 env:
-  MY_VAR: workflow
+  GREETING: "Hello from workflow env"
 
 jobs:
   demo:
     runs-on: ubuntu-latest
 
-    # 2) Job-level override for all steps in this job
+    # 2) Assign to environment to use 'vars' context (see steps below!)
+    environment: demo-env
+
+    # 3) Job-level ENV — overrides workflow-level
     env:
-      MY_VAR: job
+      GREETING: "Hello from job env"
 
     steps:
-      - name: Show workflow & job value
-        run: |
-          # No step override, so picks up the job-level "job"
-          echo "MY_VAR = $MY_VAR"
+      - name: Step 1: Print from env context (no step override)
+        run: echo "GREETING from env = $GREETING"
+        # Expected: job-level value
 
-      - name: Override in this one step
+      - name: Step 2: Override env at step level
         env:
-          MY_VAR: step
-        run: |
-          # Step-level always wins
-          echo "MY_VAR = $MY_VAR"
+          GREETING: "Hello from step env"
+        run: echo "GREETING from env = $GREETING"
+        # Expected: step-level value
 
-      - name: Back to job-level again
+      - name: Step 3: Use vars context
         run: |
-          # Step has no override, so back to "job"
-          echo "MY_VAR = $MY_VAR"
+          echo "GREETING from vars = ${{ vars.GREETING }}"

@@ -36,9 +36,3 @@ jobs:
         if: ${{ env.GLOBAL_MODE == 'production' }}
         run: echo "🚀 Running production tasks"
         # This will be skipped, because GLOBAL_MODE is “staging” here.
-
-      # 10) Step-level override: only this step sees GLOBAL_MODE=debug
-      - name: Step-level override
-        env:
-          GLOBAL_MODE: debug
-        run: echo "Local Mode: $GLOBAL_MODE"  # prints “debug”

@@ -1,9 +1,11 @@
 name: Matrix
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
 
 jobs:
   matrix-jobs:
+    name: Matrix Job - ${{ matrix.os }} - Java ${{ matrix.java-version }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -11,8 +13,14 @@ jobs:
         java-version: [17, 20]
 
     steps:
-      - name: Set up Java JDK
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java JDK ${{ matrix.java-version }}
         uses: actions/setup-java@v3.14.1
         with:
           java-version: ${{ matrix.java-version }}
           distribution: temurin
+
+      - name: Verify Java version
+        run: java -version

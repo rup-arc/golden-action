@@ -3,17 +3,9 @@ name: Work Flow Demo
 
 on:
   push:
-    branches:
-      - main
-    paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
-      - '**/*.txt'
-
-  push:
     tags:
       - 'v*'
-      - 'release-*'   
+      # - 'release-*'   
 
 jobs:
   build:

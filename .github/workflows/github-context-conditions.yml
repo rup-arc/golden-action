@@ -1,0 +1,49 @@
+name: GitHub Context with Conditions
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  show-github-context:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Always print basic repo info
+        run: |
+          echo "Repository:    ${{ github.repository }}"
+          echo "Workflow:      ${{ github.workflow }}"
+
+      - name: Print branch or tag (only on push)
+        if: github.event_name == 'push'
+        run: |
+          echo "Ref:           ${{ github.ref }}"
+          echo "Short ref:     ${{ github.ref#'refs/heads/'}}${{ github.ref#'refs/tags/' }}"
+
+      - name: Print PR details (only on pull_request)
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "PR Number:     ${{ github.event.pull_request.number }}"
+          echo "PR Head Ref:   ${{ github.event.pull_request.head.ref }}"
+          echo "PR Base Ref:   ${{ github.event.pull_request.base.ref }}"
+
+      - name: Print actor (skip bots)
+        if: github.actor != 'github-actions[bot]'
+        run: echo "Actor:         ${{ github.actor }}"
+
+      - name: Print server & API URLs (only on manual dispatch)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "Server URL:    ${{ github.server_url }}"
+          echo "API URL:       ${{ github.api_url }}"
+
+      - name: Deploy notice (only on main branch push)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: echo "🔔 Deploy step would run now…"

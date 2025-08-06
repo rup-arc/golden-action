@@ -1,58 +1,58 @@
-# File: .github/workflows/ci.yml
-name: CI Pipeline
+# # File: .github/workflows/ci.yml
+# name: CI Pipeline
 
-on:
-  # 1) Pushes to main
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'docs/**'
-      - '**/*.md'
-      - '**/*.txt'
-  # 2) Issue events (opened & edited)
-  issues:
-    types:
-      - opened
-      - edited
-  # 3) Pull requests (opened & new commits)
-  pull_request:
-    branches:
-      - main
-    types:
-      - opened
-      - synchronize
-  # 4) Manual dispatch with an environment input
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Which environment to deploy to'
-        required: true
-        default: 'staging'
+# on:
+#   # 1) Pushes to main
+#   push:
+#     branches:
+#       - main
+#     paths-ignore:
+#       - 'docs/**'
+#       - '**/*.md'
+#       - '**/*.txt'
+#   # 2) Issue events (opened & edited)
+#   issues:
+#     types:
+#       - opened
+#       - edited
+#   # 3) Pull requests (opened & new commits)
+#   pull_request:
+#     branches:
+#       - main
+#     types:
+#       - opened
+#       - synchronize
+#   # 4) Manual dispatch with an environment input
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         description: 'Which environment to deploy to'
+#         required: true
+#         default: 'staging'
 
-jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Print Build
-        run: echo "Building for ${{ github.event_name }} event"
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Print Build
+#         run: echo "Building for ${{ github.event_name }} event"
 
-  test:
-    name: Test
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Print Test
-        run: echo "Testing on ${{ runner.os }} via ${{ github.event_name }}"
+#   test:
+#     name: Test
+#     runs-on: windows-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Print Test
+#         run: echo "Testing on ${{ runner.os }} via ${{ github.event_name }}"
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'issues' }}    # optional: skip deploy on issue events
-    steps:
-      - uses: actions/checkout@v4
-      - name: Print Deploy
-        run: |
-          echo "Deploying to ${{ github.event.inputs.environment || 'default' }}"
+#   deploy:
+#     name: Deploy
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event_name != 'issues' }}    # optional: skip deploy on issue events
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Print Deploy
+#         run: |
+#           echo "Deploying to ${{ github.event.inputs.environment || 'default' }}"

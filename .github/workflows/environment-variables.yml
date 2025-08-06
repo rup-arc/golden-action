@@ -16,8 +16,9 @@ jobs:
     steps:
       - name: Print env and vars
         run: |
-          echo "env.MY_VAR = ${{ env.MY_VAR }}"      # should print: steps
-          echo "vars.MY_VAR = ${{ vars.MY_VAR }}"    # should print: workflow-var
+          echo "env.MY_VAR = ${{ env.MY_VAR }}"
+          echo "vars.MY_VAR = ${{ vars.MY_VAR }}"
+
 
     
         env:

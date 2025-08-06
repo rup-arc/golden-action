@@ -11,8 +11,8 @@ on:
 jobs:
   show-github-context:
     runs-on: ubuntu-latest
-
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -22,28 +22,31 @@ jobs:
           echo "Workflow:      ${{ github.workflow }}"
 
       - name: Print branch or tag (only on push)
-        if: github.event_name == 'push'
+        if: ${{ github.event_name == 'push' }}
         run: |
           echo "Ref:           ${{ github.ref }}"
-          echo "Short ref:     ${{ github.ref#'refs/heads/'}}${{ github.ref#'refs/tags/' }}"
+          # Strip off refs/heads/ or refs/tags/ so you see just the branch or tag name
+          SHORT_REF=${GITHUB_REF#refs/heads/}
+          SHORT_REF=${SHORT_REF#refs/tags/}
+          echo "Short ref:     $SHORT_REF"
 
       - name: Print PR details (only on pull_request)
-        if: github.event_name == 'pull_request'
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           echo "PR Number:     ${{ github.event.pull_request.number }}"
           echo "PR Head Ref:   ${{ github.event.pull_request.head.ref }}"
           echo "PR Base Ref:   ${{ github.event.pull_request.base.ref }}"
 
       - name: Print actor (skip bots)
-        if: github.actor != 'github-actions[bot]'
+        if: ${{ github.actor != 'github-actions[bot]' }}
         run: echo "Actor:         ${{ github.actor }}"
 
       - name: Print server & API URLs (only on manual dispatch)
-        if: github.event_name == 'workflow_dispatch'
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           echo "Server URL:    ${{ github.server_url }}"
           echo "API URL:       ${{ github.api_url }}"
 
       - name: Deploy notice (only on main branch push)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: echo "🔔 Deploy step would run now…"
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: echo "Deploy step would run now..."

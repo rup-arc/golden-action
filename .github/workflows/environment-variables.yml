@@ -3,27 +3,23 @@ name: Variable
 on:
   workflow_dispatch:
 
-# ✅ Workflow-level environment variable
 env:
   MY_VAR: workflow
 
-# ✅ Workflow-level static variables
-vars:
-  MY_VAR: workflow-var
-
 jobs:
   variables:
-    runs-on: ubuntu-latest
-
-    # ✅ Job-level env (overrides workflow-level env)
     env:
       MY_VAR: jobs
 
+    runs-on: ubuntu-latest
+    
     steps:
       - name: Print env and vars
-        # ✅ Step-level env (overrides job and workflow env)
-        env:
-          MY_VAR: steps
         run: |
           echo "env.MY_VAR = ${{ env.MY_VAR }}"      # should print: steps
           echo "vars.MY_VAR = ${{ vars.MY_VAR }}"    # should print: workflow-var
+
+    
+        env:
+          MY_VAR: steps
+        

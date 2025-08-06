@@ -34,10 +34,6 @@ jobs:
           echo "PR Head Ref:   ${{ github.event.pull_request.head.ref }}"
           echo "PR Base Ref:   ${{ github.event.pull_request.base.ref }}"
 
-      - name: Print actor (skip bots)
-        if: ${{ github.actor != 'github-actions[bot]' }}
-        run: echo "Actor:         ${{ github.actor }}"
-
       - name: Print server & API URLs (only on manual dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |

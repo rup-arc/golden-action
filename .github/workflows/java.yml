@@ -1,20 +1,24 @@
 name: Java Setup
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+
 jobs:
   java-setup:
     runs-on: ubuntu-latest
-steps:
+
+    steps:
       # 1. Check out your repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Set up JDK 21
+      # 2. Set up JDK 21 (Microsoft Build of OpenJDK)
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          distribution: microsoft    # Eclipse Temurin build of OpenJDK
-          java-version: '21'     
+          distribution: microsoft
+          java-version: '21'
+
+      # 3. Print the installed Java version
       - name: Print Java Version
-      
+        run: java -version

@@ -43,3 +43,7 @@ jobs:
         run: |
           echo "Server URL:    ${{ github.server_url }}"
           echo "API URL:       ${{ github.api_url }}"
+
+      - name: Deploy notice (only on main branch push)
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: echo "Deploy step would run now..."

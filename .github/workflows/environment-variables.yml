@@ -1,24 +1,51 @@
-# 1) Human‐readable workflow name shown in the Actions tab
-name: Env Context
+name: Env & Vars Demo
+on: workflow_dispatch
 
-# 2) Trigger: manual dispatch only (Run workflow button)
-on:
-  workflow_dispatch:
+# ───────────────────────────────────────────────
+# 1) Immutable constants (vars) — read‐only everywhere
+vars:
+  DEFAULT_GREETING: "Hello from vars!"
+  DEFAULT_RETRIES:  "3"
 
+# 2) Workflow‐level env — can be overridden per job or step
 env:
-  MY_VAR: workflow       # workflow-level
+  GREETING: ${{ vars.DEFAULT_GREETING }}   # pick up the vars value
+  RETRIES:  ${{ vars.DEFAULT_RETRIES }}
 
 jobs:
-  variables:
+  demonstrate:
     runs-on: ubuntu-latest
 
-    env:                  # job-level override
-      MY_VAR: jobs
+    # ───────────────────────────────────────────────
+    # 3) Job‐level env — overrides workflow‐level
+    env:
+      GREETING: "Howdy from job!"
+      # RETRIES remains "3" from workflow
 
     steps:
-      - name: Print
-        env:              # step-level override
-          MY_VAR: steps
+      - name: Show vars constant
         run: |
-          echo '${{ env.MY_VAR }}'   # → steps
-          echo '${{ vars.MY_VAR }}'   # → (would read a vars.MY_VAR constant if defined)
+          echo "VAR greeting:  ${{ vars.DEFAULT_GREETING }}"
+          echo "VAR retries:   ${{ vars.DEFAULT_RETRIES }}"
+
+      - name: Show workflow & job overlaps
+        run: |
+          echo "Workflow-level greeting (via env): $GREETING"
+          echo "Workflow-level retries  (via env): $RETRIES"
+
+      - name: Step with no override
+        run: |
+          echo "→ No override here, GREETING=$GREETING (should be from job)"
+
+      - name: Step‐level override
+        env:
+          GREETING: "Hi from step!"
+          RETRIES:  "5"
+        run: |
+          echo "→ Step override GREETING: $GREETING"
+          echo "→ Step override RETRIES:  $RETRIES"
+
+      - name: Back to job‐level after step
+        run: |
+          echo "→ After step, GREETING=$GREETING"
+          echo "→ After step, RETRIES= $RETRIES"

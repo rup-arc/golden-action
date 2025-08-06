@@ -1,19 +1,22 @@
 name: Generate Info
+
 on:
   workflow_call:
     outputs:
       current-time:
         description: 'Current timestamp (UTC)'
+        value: ${{ jobs.generate.outputs.current-time }}
       random-number:
-        description: 'Random number'
+        description: 'Random number from shell'
+        value: ${{ jobs.generate.outputs.random-number }}
 
 jobs:
   generate:
     runs-on: ubuntu-latest
 
-    # Map step outputs into job outputs
+    # Expose step outputs as job outputs
     outputs:
-      current-time: ${{ steps.get-time.outputs.time }}
+      current-time:  ${{ steps.get-time.outputs.time }}
       random-number: ${{ steps.get-random.outputs.number }}
 
     steps:

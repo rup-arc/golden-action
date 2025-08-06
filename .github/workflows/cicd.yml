@@ -10,7 +10,6 @@ on:
       - 'docs/**'
       - '**/*.md'
       - '**/*.txt'
-      - '.github/workflows/**'
   # 2) Issue events (opened & edited)
   issues:
     types:

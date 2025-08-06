@@ -11,7 +11,7 @@ jobs:
         run: |
           echo "Repository:        ${{ github.repository }}"
           echo "Repository ID:     ${{ github.repository_id }}"
-          echo "Repository URL:    ${{ github.repository_url }}"
+          echo "Repository URL:    ${{ github.repositoryUrl }}"
           echo "Server URL:        ${{ github.server_url }}"
           echo "API URL:           ${{ github.api_url }}"
           echo "GraphQL URL:       ${{ github.graphql_url }}"

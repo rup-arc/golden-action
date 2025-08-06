@@ -6,6 +6,9 @@ on:
 env:
   MY_VAR: workflow
 
+vars:                        # ✅ This was missing!
+  MY_VAR: global
+
 jobs:
   variables:
     env:
@@ -18,9 +21,5 @@ jobs:
         run: |
           echo "env.MY_VAR = ${{ env.MY_VAR }}"
           echo "vars.MY_VAR = ${{ vars.MY_VAR }}"
-
-
-    
         env:
           MY_VAR: steps
-        

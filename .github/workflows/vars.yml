@@ -1,4 +1,4 @@
-name: Vars Working Demo
+name: Vars
 
 on:
   workflow_dispatch:

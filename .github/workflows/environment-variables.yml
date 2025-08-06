@@ -1,25 +1,32 @@
-name: Simple Env & Vars Demo
+name: Simple Env Demo
 on: workflow_dispatch
 
-# 1) Immutable constant (vars)
-vars:
-  DEFAULT_MESSAGE: "Hello from vars"
-
-# 2) Workflow-level env picks it up
+# 1) Workflow-level default for EVERY job and step
 env:
-  MESSAGE: ${{ vars.DEFAULT_MESSAGE }}
+  MY_VAR: workflow
 
 jobs:
   demo:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Show workflow-level MESSAGE
-        run: echo "MESSAGE = $MESSAGE"
-        # → prints: MESSAGE = Hello from vars
+    # 2) Job-level override for all steps in this job
+    env:
+      MY_VAR: job
 
-      - name: Override MESSAGE in this step
+    steps:
+      - name: Show workflow & job value
+        run: |
+          # No step override, so picks up the job-level "job"
+          echo "MY_VAR = $MY_VAR"
+
+      - name: Override in this one step
         env:
-          MESSAGE: "Hello from step"
-        run: echo "MESSAGE = $MESSAGE"
-        # → prints: MESSAGE = Hello from step
+          MY_VAR: step
+        run: |
+          # Step-level always wins
+          echo "MY_VAR = $MY_VAR"
+
+      - name: Back to job-level again
+        run: |
+          # Step has no override, so back to "job"
+          echo "MY_VAR = $MY_VAR"

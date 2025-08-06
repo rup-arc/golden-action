@@ -1,12 +1,12 @@
-name: Vars Demo
+name: Vars Working Demo
 
 on:
   workflow_dispatch:
 
 jobs:
-  use-vars:
+  demo-vars:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print GitHub variable
-        run: echo "vars.APP_ENV = ${{ vars.APP_ENV }}"
+      - name: Print MY_VAR from vars
+        run: echo "vars.MY_VAR = ${{ vars.MY_VAR }}"

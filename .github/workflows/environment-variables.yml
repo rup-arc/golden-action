@@ -1,0 +1,37 @@
+name: Env Context Demo
+
+on:
+  workflow_dispatch:
+
+env:                                   # 1. Workflow-level
+  GLOBAL_API_URL: https://api.example.com
+  GLOBAL_MODE:    production
+
+jobs:
+  show-env:
+    runs-on: ubuntu-latest
+    env:                               # 2. Job-level
+      JOB_TIMEOUT: 30m
+      GLOBAL_MODE:  staging            # overrides workflow-level GLOBAL_MODE
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Print workflow-level vars
+        run: |
+          echo "API URL:     ${{ env.GLOBAL_API_URL }}"
+          echo "Global Mode: ${{ env.GLOBAL_MODE }}"
+
+      - name: Print job-level var
+        run: echo "Job Timeout: ${{ env.JOB_TIMEOUT }}"
+
+      - name: Conditionally run based on env
+        if: ${{ env.GLOBAL_MODE == 'production' }}
+        run: echo "🚀 Running production tasks"
+        # (this step will be skipped because GLOBAL_MODE is 'staging')
+
+      - name: Step-level override
+        env:
+          GLOBAL_MODE: debug            # 3. Step-level override
+        run: echo "Local Mode: $GLOBAL_MODE"

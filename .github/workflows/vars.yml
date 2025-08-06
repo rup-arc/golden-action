@@ -1,4 +1,4 @@
-name: Vars
+name: Vars - UC 1
 
 on:
   workflow_dispatch:

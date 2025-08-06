@@ -31,10 +31,6 @@ jobs:
           echo "API URL:     ${{ env.GLOBAL_API_URL }}"  # from workflow env
           echo "Global Mode: ${{ env.GLOBAL_MODE }}"     # staging (job override)
 
-      # 8) Prints the job-level timeout
-      - name: Print job-level var
-        run: echo "Job Timeout: ${{ env.JOB_TIMEOUT }}"  # 30m
-
       # 9) Conditional based on GLOBAL_MODE: only runs if it’s exactly “production”
       - name: Conditionally run based on env
         if: ${{ env.GLOBAL_MODE == 'production' }}

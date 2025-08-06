@@ -1,26 +1,29 @@
-name: Env and Vars Context Demo
+name: Variable
 
 on:
   workflow_dispatch:
 
-# ✅ Define both 'env' and 'vars' at the top level of the workflow
+# ✅ Workflow-level environment variable
 env:
-  MY_VAR: workflow-env
+  MY_VAR: workflow
 
+# ✅ Workflow-level static variables
 vars:
-  MY_VAR: workflow-vars
+  MY_VAR: workflow-var
 
 jobs:
-  demo-job:
+  variables:
     runs-on: ubuntu-latest
 
+    # ✅ Job-level env (overrides workflow-level env)
     env:
-      MY_VAR: job-env  # overrides workflow env
+      MY_VAR: jobs
 
     steps:
-      - name: Print ENV and VARS
+      - name: Print env and vars
+        # ✅ Step-level env (overrides job and workflow env)
         env:
-          MY_VAR: step-env  # overrides job env
+          MY_VAR: steps
         run: |
-          echo "ENV: ${{ env.MY_VAR }}"     # should print 'step-env'
-          echo "VARS: ${{ vars.MY_VAR }}"   # should print 'workflow-vars'
+          echo "env.MY_VAR = ${{ env.MY_VAR }}"      # should print: steps
+          echo "vars.MY_VAR = ${{ vars.MY_VAR }}"    # should print: workflow-var

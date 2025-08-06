@@ -1,32 +1,28 @@
-name: Env & Vars Context
-on: workflow_dispatch
+name: Env & Vars Context Demo
 
-# 1) Workflow-level ENV — overrides can happen
+on:
+  workflow_dispatch:
+
 env:
-  GREETING: "Hello from workflow env"
+  GREETING: "Hello from workflow env"   # ← Workflow-level ENV
 
 jobs:
   demo:
     runs-on: ubuntu-latest
 
-    # 2) Assign to environment to use 'vars' context (see steps below!)
-    environment: demo-env
+    environment: demo-env               # ← Link to GitHub Environment
 
-    # 3) Job-level ENV — overrides workflow-level
     env:
-      GREETING: "Hello from job env"
+      GREETING: "Hello from job env"   # ← Job-level override
 
     steps:
-      - name: Step 1: Print from env context (no step override)
+      - name: Step 1: Print from env (job-level)
         run: echo "GREETING from env = $GREETING"
-        # Expected: job-level value
 
       - name: Step 2: Override env at step level
         env:
           GREETING: "Hello from step env"
         run: echo "GREETING from env = $GREETING"
-        # Expected: step-level value
 
-      - name: Step 3: Use vars context
-        run: |
-          echo "GREETING from vars = ${{ vars.GREETING }}"
+      - name: Step 3: Print from vars context
+        run: echo "GREETING from vars = ${{ vars.GREETING }}"

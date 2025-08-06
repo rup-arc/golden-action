@@ -1,37 +1,48 @@
+# 1) Human‐readable workflow name shown in the Actions tab
 name: Env Context Demo
 
+# 2) Trigger: manual dispatch only (Run workflow button)
 on:
   workflow_dispatch:
 
-env:                                   # 1. Workflow-level
-  GLOBAL_API_URL: https://api.example.com
-  GLOBAL_MODE:    production
+# 3) Workflow‐level env (applies to every job & step unless overridden)
+env:
+  GLOBAL_API_URL: https://api.example.com   # base API endpoint for all jobs
+  GLOBAL_MODE:    production                # default mode for entire workflow
 
 jobs:
   show-env:
+    # 4) Runner: GitHub’s Ubuntu VM
     runs-on: ubuntu-latest
-    env:                               # 2. Job-level
-      JOB_TIMEOUT: 30m
-      GLOBAL_MODE:  staging            # overrides workflow-level GLOBAL_MODE
+
+    # 5) Job‐level env (overrides workflow level inside this job)
+    env:
+      JOB_TIMEOUT: 30m           # timeout value used by steps in this job
+      GLOBAL_MODE:  staging      # overrides workflow-level GLOBAL_MODE
 
     steps:
+      # 6) Checkout action clones your repo so steps can read its files
       - name: Checkout
         uses: actions/checkout@v3
 
+      # 7) Prints the workflow-level API URL and job-level GLOBAL_MODE
       - name: Print workflow-level vars
         run: |
-          echo "API URL:     ${{ env.GLOBAL_API_URL }}"
-          echo "Global Mode: ${{ env.GLOBAL_MODE }}"
+          echo "API URL:     ${{ env.GLOBAL_API_URL }}"  # from workflow env
+          echo "Global Mode: ${{ env.GLOBAL_MODE }}"     # staging (job override)
 
+      # 8) Prints the job-level timeout
       - name: Print job-level var
-        run: echo "Job Timeout: ${{ env.JOB_TIMEOUT }}"
+        run: echo "Job Timeout: ${{ env.JOB_TIMEOUT }}"  # 30m
 
+      # 9) Conditional based on GLOBAL_MODE: only runs if it’s exactly “production”
       - name: Conditionally run based on env
         if: ${{ env.GLOBAL_MODE == 'production' }}
         run: echo "🚀 Running production tasks"
-        # (this step will be skipped because GLOBAL_MODE is 'staging')
+        # This will be skipped, because GLOBAL_MODE is “staging” here.
 
+      # 10) Step-level override: only this step sees GLOBAL_MODE=debug
       - name: Step-level override
         env:
-          GLOBAL_MODE: debug            # 3. Step-level override
-        run: echo "Local Mode: $GLOBAL_MODE"
+          GLOBAL_MODE: debug
+        run: echo "Local Mode: $GLOBAL_MODE"  # prints “debug”

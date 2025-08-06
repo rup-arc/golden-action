@@ -25,10 +25,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
         run: |
           echo "Ref:           ${{ github.ref }}"
-          # Strip off refs/heads/ or refs/tags/ so you see just the branch or tag name
-          SHORT_REF=${GITHUB_REF#refs/heads/}
-          SHORT_REF=${SHORT_REF#refs/tags/}
-          echo "Short ref:     $SHORT_REF"
+          echo "Branch/Tag:    ${{ github.ref_name }}"
 
       - name: Print PR details (only on pull_request)
         if: ${{ github.event_name == 'pull_request' }}

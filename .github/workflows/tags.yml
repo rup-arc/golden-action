@@ -5,13 +5,15 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v*'           # triggers on tags like v1.0, v2.5, etc.
-      - 'release-*'    # optional: trigger on release-2025, release-beta, etc.
     paths-ignore:
-      - 'docs/**'       
+      - 'docs/**'
       - '**/*.md'
-      - '**/*.txt'    
+      - '**/*.txt'
+
+  push:
+    tags:
+      - 'v*'
+      - 'release-*'   
 
 jobs:
   build:

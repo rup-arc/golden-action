@@ -1,0 +1,14 @@
+name: Basic Matrix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  basic-matrix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        java: [17, 20]
+    steps:
+      - run: echo "OS=${{ matrix.os }}, Java=${{ matrix.java }}"

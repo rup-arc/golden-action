@@ -1,38 +1,24 @@
 # 1) Human‐readable workflow name shown in the Actions tab
-name: Env Context Demo
+name: Env Context
 
 # 2) Trigger: manual dispatch only (Run workflow button)
 on:
   workflow_dispatch:
 
-# 3) Workflow‐level env (applies to every job & step unless overridden)
 env:
-  GLOBAL_API_URL: https://api.example.com   # base API endpoint for all jobs
-  GLOBAL_MODE:    production                # default mode for entire workflow
+  MY_VAR: workflow       # workflow-level
 
 jobs:
-  show-env:
-    # 4) Runner: GitHub’s Ubuntu VM
+  variables:
     runs-on: ubuntu-latest
 
-    # 5) Job‐level env (overrides workflow level inside this job)
-    env:
-      JOB_TIMEOUT: 30m           # timeout value used by steps in this job
-      GLOBAL_MODE:  staging      # overrides workflow-level GLOBAL_MODE
+    env:                  # job-level override
+      MY_VAR: jobs
 
     steps:
-      # 6) Checkout action clones your repo so steps can read its files
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      # 7) Prints the workflow-level API URL and job-level GLOBAL_MODE
-      - name: Print workflow-level vars
+      - name: Print
+        env:              # step-level override
+          MY_VAR: steps
         run: |
-          echo "API URL:     ${{ env.GLOBAL_API_URL }}"  # from workflow env
-          echo "Global Mode: ${{ env.GLOBAL_MODE }}"     # staging (job override)
-
-      # 9) Conditional based on GLOBAL_MODE: only runs if it’s exactly “production”
-      - name: Conditionally run based on env
-        if: ${{ env.GLOBAL_MODE == 'production' }}
-        run: echo "🚀 Running production tasks"
-        # This will be skipped, because GLOBAL_MODE is “staging” here.
+          echo '${{ env.MY_VAR }}'   # → steps
+          echo '${{ vars.MY_VAR }}'   # → (would read a vars.MY_VAR constant if defined)

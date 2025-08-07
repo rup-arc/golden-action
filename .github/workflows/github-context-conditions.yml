@@ -27,13 +27,6 @@ jobs:
           echo "Ref:           ${{ github.ref }}"
           echo "Branch/Tag:    ${{ github.ref_name }}"
 
-      - name: Print PR details (only on pull_request)
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          echo "PR Number:     ${{ github.event.pull_request.number }}"
-          echo "PR Head Ref:   ${{ github.event.pull_request.head.ref }}"
-          echo "PR Base Ref:   ${{ github.event.pull_request.base.ref }}"
-
       - name: Print server & API URLs (only on manual dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |

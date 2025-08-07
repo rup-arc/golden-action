@@ -1,0 +1,38 @@
+name: GitHub Context with Conditions
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  show-github-context:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: print basic repo info
+        run: |
+          echo "Repository:    ${{ github.repository }}"
+          echo "Workflow:      ${{ github.workflow }}"
+
+      - name: Print branch or tag (only on push)
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          echo "Ref:           ${{ github.ref }}"
+          echo "Branch/Tag:    ${{ github.ref_name }}"
+
+      - name: Print server & API URLs (only on manual dispatch)
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: |
+          echo "Server URL:    ${{ github.server_url }}"
+          echo "API URL:       ${{ github.api_url }}"
+
+      - name: Deploy notice (only on main branch push)
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        run: echo "Deploy step would run now..."

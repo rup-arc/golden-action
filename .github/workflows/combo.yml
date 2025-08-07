@@ -1,0 +1,23 @@
+name: 6 Combine Env Vars Secrets
+
+on:
+  workflow_dispatch:
+
+env:                        # Workflow-level env
+  GLOBAL_ENV: workflow-env
+
+jobs:
+  combo-demo:
+    runs-on: ubuntu-latest
+
+    env:                    # Job-level env (can override workflow-level)
+      GLOBAL_ENV: job-env
+
+    steps:
+      - name: Print everything
+        run: |
+          echo "env.GLOBAL_ENV  = ${{ env.GLOBAL_ENV }}"
+          echo "vars.MY_VAR     = ${{ vars.MY_VAR }}"
+          echo "secrets.MY_SECRET = ${{ secrets.MY_SECRET }}"
+        env:
+          GLOBAL_ENV: step-env

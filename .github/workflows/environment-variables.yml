@@ -1,0 +1,19 @@
+name: Variable Demo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  print-vars:
+    runs-on: ubuntu-latest
+
+    env:
+      MY_VAR: job-level
+
+    steps:
+      - name: Print env and vars
+        run: |
+          echo "env.MY_VAR  = ${{ env.MY_VAR }}"
+          echo "vars.MY_VAR = ${{ vars.MY_VAR }}"
+        env:
+          MY_VAR: step-level

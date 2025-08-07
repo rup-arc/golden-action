@@ -1,0 +1,19 @@
+name: Consume Generated Info
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # Call the reusable workflow
+  call-generate:
+    uses: ./.github/workflows/generate-info.yml
+
+  # Consume its outputs
+  consumer:
+    needs: call-generate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show the values
+        run: |
+          echo "Timestamp:    ${{ needs.call-generate.outputs.current-time }}"
+          echo "Random number: ${{ needs.call-generate.outputs.random-number }}"

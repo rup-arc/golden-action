@@ -1,0 +1,17 @@
+name: Multi Job Vars - Uc 5
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job-one:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use MY_VAR in Job 1
+        run: echo "Job 1 value = ${{ vars.MY_VAR }}"
+
+  job-two:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Use MY_VAR in Job 2
+        run: echo "Job 2 value = ${{ vars.MY_VAR }}"

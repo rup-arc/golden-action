@@ -1,0 +1,83 @@
+name: All Matrix Use Cases
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  #  Use Case 1: 
+  basic-matrix:
+    name: "Basic Matrix: ${{ matrix.os }} - Java ${{ matrix.java }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        java: [17, 20]
+    steps:
+      - name: Echo basic combo
+        run: |
+          echo "OS=${{ matrix.os }}, Java=${{ matrix.java }}"
+
+  #  Use Case 2: 
+  include-matrix:
+    name: "Include Matrix: ${{ matrix.os }} - Java ${{ matrix.java }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            java: 17
+          - os: windows-latest
+            java: 20
+    steps:
+      - name: Echo included pair
+        run: |
+          echo "Included pair: ${{ matrix.os }} - ${{ matrix.java }}"
+
+  # Use Case 3:
+  exclude-matrix:
+    name: "Exclude Matrix: ${{ matrix.os }} - Java ${{ matrix.java }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        java: [17, 20]
+        exclude:
+          - os: windows-latest
+            java: 20
+    steps:
+      - name: Echo allowed pair
+        run: |
+          echo "Allowed pair: ${{ matrix.os }} - ${{ matrix.java }}"
+
+  # Use Case 4:
+  custom-key-matrix:
+    name: "Custom Key Matrix: ${{ matrix.os }} - Mode ${{ matrix.mode }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            java: 17
+            mode: dev
+          - os: windows-latest
+            java: 20
+            mode: prod
+    steps:
+      - name: Echo custom-mode combo
+        run: |
+          echo "Running in ${{ matrix.mode }} mode with Java ${{ matrix.java }} on ${{ matrix.os }}"
+
+  # Use Case 5:
+  failfast-matrix:
+    name: "Fail-Fast Off Matrix: ${{ matrix.env }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [alpha, beta, prod]
+    steps:
+      - name: Simulate environment
+        run: |
+          echo "Running environment: ${{ matrix.env }}"
+          if [[ "${{ matrix.env }}" == "beta" ]]; then exit 1; fi

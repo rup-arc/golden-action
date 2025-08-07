@@ -1,0 +1,12 @@
+name: Vars - UC 1
+
+on:
+  workflow_dispatch:
+
+jobs:
+  demo-vars:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print MY_VAR from vars
+        run: echo "vars.MY_VAR = ${{ vars.MY_VAR }}"

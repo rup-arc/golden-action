@@ -1,0 +1,33 @@
+# .github/workflows/indexed-matrix.yml
+name: Matrix Max Parallel 2
+
+on:
+  workflow_dispatch:
+
+jobs:
+  indexed-matrix:
+    name: "Indexed Matrix: #${{ matrix.index }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 2                # ← limit to 2 concurrent jobs
+      matrix:
+        include:
+          - os: ubuntu-latest
+            java: 17
+            index: 1
+          - os: ubuntu-latest
+            java: 20
+            index: 2
+          - os: windows-latest
+            java: 17
+            index: 3
+          - os: windows-latest
+            java: 20
+            index: 4
+
+    steps:
+      - name: Echo index & combo
+        run: |
+          echo "Index   = ${{ matrix.index }}"
+          echo "OS      = ${{ matrix.os }}"
+          echo "Java    = ${{ matrix.java }}"

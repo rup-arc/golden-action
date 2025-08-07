@@ -1,0 +1,29 @@
+name: Outputs - Generate
+
+on:
+  workflow_call:
+    outputs:
+      current-time:
+        description: 'Current timestamp (UTC)'
+        value: ${{ jobs.generate.outputs.current-time }}
+      random-number:
+        description: 'Random number from shell'
+        value: ${{ jobs.generate.outputs.random-number }}
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    # Expose step outputs as job outputs
+    outputs:
+      current-time:  ${{ steps.get-time.outputs.time }}
+      random-number: ${{ steps.get-random.outputs.number }}
+
+    steps:
+      - id: get-time
+        run: |
+          echo "time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_OUTPUT
+
+      - id: get-random
+        run: |
+          echo "number=$RANDOM" >> $GITHUB_OUTPUT

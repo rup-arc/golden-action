@@ -1,4 +1,4 @@
-name: Generate Info
+name: Outputs - Generate
 
 on:
   workflow_call:

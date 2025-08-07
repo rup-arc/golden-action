@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  # ✅ Use Case 1: Basic OS x Java Version
+  #  Use Case 1: 
   basic-matrix:
     name: "Basic Matrix: ${{ matrix.os }} - Java ${{ matrix.java }}"
     runs-on: ${{ matrix.os }}
@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "OS=${{ matrix.os }}, Java=${{ matrix.java }}"
 
-  # ✅ Use Case 2: Matrix with INCLUDE
+  #  Use Case 2: 
   include-matrix:
     name: "Include Matrix: ${{ matrix.os }} - Java ${{ matrix.java }}"
     runs-on: ${{ matrix.os }}
@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "Included pair: ${{ matrix.os }} - ${{ matrix.java }}"
 
-  # ✅ Use Case 3: Matrix with EXCLUDE
+  # Use Case 3:
   exclude-matrix:
     name: "Exclude Matrix: ${{ matrix.os }} - Java ${{ matrix.java }}"
     runs-on: ${{ matrix.os }}
@@ -50,7 +50,7 @@ jobs:
         run: |
           echo "Allowed pair: ${{ matrix.os }} - ${{ matrix.java }}"
 
-  # ✅ Use Case 4: Matrix with Extra Keys (custom values)
+  # Use Case 4:
   custom-key-matrix:
     name: "Custom Key Matrix: ${{ matrix.os }} - Mode ${{ matrix.mode }}"
     runs-on: ${{ matrix.os }}
@@ -68,7 +68,7 @@ jobs:
         run: |
           echo "Running in ${{ matrix.mode }} mode with Java ${{ matrix.java }} on ${{ matrix.os }}"
 
-  # ✅ Use Case 5: Matrix + fail-fast: false
+  # Use Case 5:
   failfast-matrix:
     name: "Fail-Fast Off Matrix: ${{ matrix.env }}"
     runs-on: ubuntu-latest
